@@ -1,19 +1,17 @@
 {
   "name": "jarvis",
   "version": "1.0.0",
-  "description": "Just A Rather Very Intelligent System",
-  "main": "server.js",
+  "description": "Read me file",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "frontend": "cd frontend/vite-project && npm run dev",
+    "backend": "cd backend && node --watch server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/joaovitortc/JARVIS.git"
-  },
-  "author": "JVTC",
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/joaovitortc/JARVIS/issues"
-  },
-  "homepage": "https://github.com/joaovitortc/JARVIS#readme"
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
