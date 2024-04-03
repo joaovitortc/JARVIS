@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Message from './Message'
 
 function ChatBox() {
   const [messages, setMessages] = useState([{ text: "", sender: "" }]);
@@ -6,12 +7,15 @@ function ChatBox() {
 
   const handleMessageSend = () => {
     if (inputValue.trim() !== "") {
-      setMessages((prevMessages) => [...prevMessages, { text: inputValue, sender: "user" }]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: inputValue, sender: "user" },
+      ]);
       setInputValue("");
 
       setTimeout(() => {
-        setMessages((prevMessages) => 
-        [...prevMessages,
+        setMessages((prevMessages) => [
+          ...prevMessages,
           { text: "This is a response from ChatGPT.", sender: "ChatGPT" },
         ]);
       }, 1000);
@@ -23,16 +27,19 @@ function ChatBox() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="card">
-        <div className="card-body messages">
-          {messages.map((message, index) => ( // this has to be a component "message"
-            <div key={index} className={`message ${message.sender}`}>
-              {message.text}
-            </div>
-          ))}
+    <div className="container mt-5 chatbox flex-grow-1 d-flex">
+      <div className="card chatbox-card flex-grow-1">
+        <div className="card-body messages chatbox-messages">
+          {messages.map(
+            (
+              message,
+              index // this has to be a component "message"
+            ) => (
+              <Message index={index} sender={message.sender} text={message.text}/>
+            )
+          )}
         </div>
-        <div className="card-footer input">
+        <div className="card-footer container-fluid d-flex input chatbox-input">
           <input
             type="text"
             className="form-control"
