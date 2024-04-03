@@ -63,6 +63,14 @@ button:focus-visible {
   border:none
 }
 
+.chatbox-input {
+  border: none;
+  margin-bottom: 1em;
+}
+
+.chatbox-input button{
+ margin-left: 1em;
+}
 .message {
   padding: 5px;
   margin-bottom: 10px;
