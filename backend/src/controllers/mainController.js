@@ -6,6 +6,8 @@ router.post("/test", (req, res) => {
 
   const {text} = req.body;
 
+  //ChatGPT Api call
+
   res.json({ message: { text: `Hi from backend! Received: ${text}`, sender: "ChatGPT" } });
 });
 
