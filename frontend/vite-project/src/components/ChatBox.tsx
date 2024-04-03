@@ -1,24 +1,44 @@
-import React, { useState } from "react";
-import Message from './Message'
+import React, { useState, useEffect } from "react";
+import Message from "./Message";
 
-function ChatBox() {
-  const [messages, setMessages] = useState([{ text: "", sender: "" }]);
+function ChatBox(props) {
+  const [message, setMessage] = useState({ text: "", sender: "" });
+  const [messages, setMessages] = useState([{ text: "", sender: "" }]); //array of messages
   const [inputValue, setInputValue] = useState("");
 
-  const handleMessageSend = () => {
+  const  handleMessageSend = async () => {
     if (inputValue.trim() !== "") {
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: inputValue, sender: "user" },
       ]);
       setInputValue("");
+     
+      try {
+        const response = await fetch("http://localhost:8080/test", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: inputValue,
+          }),
+        });
 
-      setTimeout(() => {
+        if (!response.ok) {
+          throw new Error("Failed to send message");
+        }
+
+        // If the response is successful, update UI with backend's response
+        const data = await response.json();
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: "This is a response from ChatGPT.", sender: "ChatGPT" },
+          { text: data.message.text, sender: data.message.sender },
         ]);
-      }, 1000);
+      } catch (error) {
+        console.error("Error sending message:", error);
+        // Handle error (e.g., show error message to user)
+      }
     }
   };
 
@@ -35,7 +55,11 @@ function ChatBox() {
               message,
               index // this has to be a component "message"
             ) => (
-              <Message index={index} sender={message.sender} text={message.text}/>
+              <Message
+                index={index}
+                sender={message.sender}
+                text={message.text}
+              />
             )
           )}
         </div>
