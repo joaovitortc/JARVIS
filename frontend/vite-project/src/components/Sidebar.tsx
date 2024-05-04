@@ -28,7 +28,7 @@ export default function Sidebar(props) {
         className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
       >
         <svg className="bi me-2" width="40" height="32"></svg>
-        <span className="fs-4">J.A.R.V.I.S</span>
+        <span className="fs-4">AI Hub</span>
       </a>
       <hr />
       <ul className="nav nav-pills flex-column mb-auto">

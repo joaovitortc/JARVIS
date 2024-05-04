@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
+require("dotenv").config({ path: "./config/keys.env" });
 
 const mainController = require("./src/controllers/mainController");
 
@@ -12,8 +13,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", mainController);
-
-
 
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
