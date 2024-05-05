@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Message from "./Message";
+import SendBar from "./SendBar";
 
 function ChatBox(props) {
   const [message, setMessage] = useState({ text: "", sender: "" });
@@ -42,6 +43,7 @@ function ChatBox(props) {
   };
 
   const handleInputChange = (event) => {
+    console.log("Handle Input change being called: " + event.target.value);
     setInputValue(event.target.value);
   };
 
@@ -63,18 +65,13 @@ function ChatBox(props) {
             )
           )}
         </div>
-        <div className="card-footer container-fluid d-flex input chatbox-input">
-          <input
-            type="text"
-            className="form-control"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="Type a message..."
-          />
-          <button className="btn btn-primary" onClick={handleMessageSend}>
-            Send
-          </button>
-        </div>
+
+        <SendBar 
+        handleMessageSend={handleMessageSend}
+        handleInputChange={handleInputChange}
+        setInputValue={setInputValue}/>
+
+        
       </div>
     </div>
   );
