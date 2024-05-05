@@ -37,7 +37,6 @@ function ChatBox(props) {
         ]);
       } catch (error) {
         console.error("Error sending message:", error);
-        // Handle error (e.g., show error message to user)
       }
     }
   };
@@ -53,12 +52,13 @@ function ChatBox(props) {
           {messages.map(
             (
               message,
-              index // this has to be a component "message"
+              index
             ) => (
               <Message
                 index={index}
                 sender={message.sender}
                 text={message.text}
+                audio={'./output.mp3'} // this is the audio file path
               />
             )
           )}

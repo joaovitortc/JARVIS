@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const path = require('path');
 const bodyParser = require("body-parser");
 require("dotenv").config({ path: "./config/keys.env" });
+
+app.use('/audios', express.static(path.join(__dirname, 'audios')));
 
 const mainController = require("./src/controllers/mainController");
 

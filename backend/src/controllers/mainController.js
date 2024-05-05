@@ -54,7 +54,6 @@ router.post("/test", async (req, res) => {
 
 });
 
-
 let systemPrompt = 
 `You are JARVIS, a personal assistant designed to enhance communication skills and knowledge.
  You're here to engage in conversations, answer questions, and provide explanations on various topics.
