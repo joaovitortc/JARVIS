@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 declare global {
     interface Window {
@@ -8,26 +8,50 @@ declare global {
 
 const SpeechToText = (props) => {
   const [transcript, setTranscript] = useState('');
+  const [isRecording, setIsRecording] = useState(false);
+  const recognition = useRef(new window.webkitSpeechRecognition()); // For Chrome
+
+
+  useEffect(() => {
+    recognition.current.lang = 'en-US';
+    recognition.current.interimResults = true; // return interim results
+    recognition.current.continuous = true; 
   
-  const handleSpeechRecognition = () => {
-    const recognition = new window.webkitSpeechRecognition(); // For Chrome
-    recognition.lang = 'en-US'; // Set the language
-    recognition.start(); // Start recognition
-
-    recognition.onresult = (event) => {
-      const speechToText = event.results[0][0].transcript;
-      setTranscript(speechToText);
-      props.setInputValue(speechToText);
+    recognition.current.onresult = (event) => {
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          const speechToText = event.results[i][0].transcript;
+          setTranscript((prevTranscript) => prevTranscript + ' ' + speechToText);
+          props.setInputValue((prevInputValue) => prevInputValue + ' ' + speechToText);
+        }
+      }
     };
-
-    recognition.onerror = (event) => {
+  
+    recognition.current.onerror = (event) => {
       console.error('Speech recognition error:', event.error);
     };
+  
+    recognition.current.onend = () => {
+      if (isRecording) {
+        recognition.current.start();
+      }
+    };
+  }, []);
+
+  const handleSpeechRecognition = () => {
+    if (isRecording) {
+      recognition.current.stop();
+    } else {
+      recognition.current.start();
+    }
+    setIsRecording(!isRecording);
   };
 
   return (
     <div className="card-footer container-fluid d-flex input chatbox-input">
-      <button onClick={handleSpeechRecognition}>Start Speech Recognition</button>
+      <button onClick={handleSpeechRecognition}>
+        {isRecording ? 'Stop Recording' : 'Start Recording'}
+      </button>
       <textarea
         value={transcript}
         onChange={(e) => 
