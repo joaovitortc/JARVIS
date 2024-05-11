@@ -6,8 +6,8 @@ declare global {
     }
   }
 
-const SpeechToText = (props) => {
-  const [transcript, setTranscript] = useState('');
+const SendBar = (props) => {
+  //const [transcript, setTranscript] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const recognition = useRef(new window.webkitSpeechRecognition()); // For Chrome
 
@@ -21,7 +21,7 @@ const SpeechToText = (props) => {
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
           const speechToText = event.results[i][0].transcript;
-          setTranscript((prevTranscript) => prevTranscript + ' ' + speechToText);
+          props.setTranscript((prevTranscript) => prevTranscript + ' ' + speechToText);
           props.setInputValue((prevInputValue) => prevInputValue + ' ' + speechToText);
         }
       }
@@ -53,10 +53,11 @@ const SpeechToText = (props) => {
         {isRecording ? 'Stop Recording' : 'Start Recording'}
       </button>
       <textarea
-        value={transcript}
+        id="transcript"
+        value={props.transcript}
         onChange={(e) => 
           {
-           setTranscript(e.target.value)
+           props.setTranscript(e.target.value)
            props.handleInputChange(e)
           }}
         placeholder="Speak something..."
@@ -73,4 +74,4 @@ const SpeechToText = (props) => {
   );
 };
 
-export default SpeechToText;
+export default SendBar;

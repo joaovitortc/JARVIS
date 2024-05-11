@@ -6,6 +6,7 @@ function ChatBox(props) {
   const [message, setMessage] = useState({ text: "", sender: "" });
   const [messages, setMessages] = useState([{ text: "", sender: "" }]); //array of messages
   const [inputValue, setInputValue] = useState("");
+  const [transcript, setTranscript] = useState('');
 
   const  handleMessageSend = async () => {
     if (inputValue.trim() !== "") {
@@ -30,6 +31,7 @@ function ChatBox(props) {
           throw new Error("Failed to send message");
         }
 
+        setTranscript("");  
         // If the response is successful, update UI with backend's response
         const data = await response.json();
         setMessages((prevMessages) => [
@@ -43,7 +45,6 @@ function ChatBox(props) {
   };
 
   const handleInputChange = (event) => {
-    console.log("Handle Input change being called: " + event.target.value);
     setInputValue(event.target.value);
   };
 
@@ -69,7 +70,9 @@ function ChatBox(props) {
         <SendBar 
         handleMessageSend={handleMessageSend}
         handleInputChange={handleInputChange}
-        setInputValue={setInputValue}/>
+        setInputValue={setInputValue}
+        transcript={transcript}
+        setTranscript={setTranscript}/>
 
         
       </div>
